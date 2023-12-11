@@ -4,6 +4,7 @@ import { slateEditor } from '@payloadcms/richtext-slate'
 import dotenv from 'dotenv'
 import path from 'path'
 import { buildConfig } from "payload/config"
+import { Users } from './collections/User'
 
 
 dotenv.config({
@@ -12,12 +13,12 @@ dotenv.config({
   
   export default buildConfig({
     serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
-    collections: [], 
+    collections: [Users], 
     routes: {
       admin: '/sell',
     },
     admin: {
-      // user: 'users',
+      user: 'users',
       bundler: webpackBundler(),
       meta: {
         titleSuffix: '- DigitalHippo',
