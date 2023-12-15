@@ -2,6 +2,7 @@ import { ArrowDownToLine, CheckCircle, Leaf } from 'lucide-react';
 import Link from 'next/link';
 import MaxWidthWrapper from '../components/MaxWidthWrapper';
 import { Button, buttonVariants } from '../components/ui/button';
+import ProductReel from '@/components/ProductReel';
 
 type Props = {};
 
@@ -47,7 +48,13 @@ const Home = (props: Props) => {
           </div>
         </div>
       </MaxWidthWrapper>
-      {/* TODO: List products */}
+
+      <ProductReel
+        query={{ sort: 'desc', limit: 4 }}
+        href='/products?sort=recent'
+        title='Brand new'
+      />
+
       <section className='border-t border-gray-200 bg-gray-50'>
         <MaxWidthWrapper className='py-20'>
           <div className='grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-0'>

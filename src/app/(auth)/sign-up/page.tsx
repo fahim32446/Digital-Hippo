@@ -33,7 +33,6 @@ const SignUp = (props: Props) => {
     onError: (err) => {
       if (err.data?.code === 'CONFLICT') {
         toast.error('This email is already in use. Sign in instead?');
-
         return;
       }
 
@@ -54,6 +53,7 @@ const SignUp = (props: Props) => {
 
   const onSubmit = ({ email, password }: TValidator) => {
     mutate({ email, password });
+    toast.error('This email is already in use. Sign in instead?');
   };
 
   return (

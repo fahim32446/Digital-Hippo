@@ -4,11 +4,16 @@ import { Icons } from '../Icons';
 import NavItems from './NavItems';
 import { buttonVariants } from '../ui/button';
 import Cart from './Cart';
+import { cookies } from 'next/headers';
+import { getServerSideUser } from '@/src/lib/payload-utils';
+import UserAccountNav from '../UserAccountNav';
 
 type Props = {};
 
-const Navbar = (props: Props) => {
-  const user = null;
+const Navbar = async (props: Props) => {
+  const nextCookies = cookies();
+  const { user } = await getServerSideUser(nextCookies);
+  console.log(user);
 
   return (
     <div className='bg-white sticky z-50 top-0 inset-x-0 '>
@@ -30,7 +35,7 @@ const Navbar = (props: Props) => {
 
               <div className='ml-auto flex items-center'>
                 <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
-                  {user ? null : (
+                  {user?.id ? null : (
                     <Link
                       href='/sign-in'
                       className={buttonVariants({
@@ -46,9 +51,8 @@ const Navbar = (props: Props) => {
                   )}
 
                   {user ? (
-                    ''
+                    <UserAccountNav user={user} />
                   ) : (
-                    // <UserAccountNav user={user} />
                     <Link
                       href='/sign-up'
                       className={buttonVariants({
