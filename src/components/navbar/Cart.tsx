@@ -1,9 +1,10 @@
 'use client';
 import { ShoppingCart } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Sheet,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -11,13 +12,29 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { buttonVariants } from '../ui/button';
+import { useCart } from '../hooks/use-cart';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import CartItem from './CartItem';
+import { Separator } from '../ui/separator';
+import { formatPrice } from '@/src/lib/utils';
 
 type Props = {};
 
 const Cart = (props: Props) => {
+  const fee = 1;
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const { items } = useCart();
 
-  const itemCount = 0;
+  const itemCount = items.length;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const cartTotal = items.reduce(
+    (total, { product }) => total + product.price,
+    0
+  );
 
   return (
     <Sheet>
@@ -27,7 +44,7 @@ const Cart = (props: Props) => {
           className='h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500'
         />
         <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800'>
-          0
+          {isMounted ? itemCount : 0}
         </span>
       </SheetTrigger>
       <SheetContent className='flex w-full flex-col pr-0 sm:max-w-lg'>
@@ -36,14 +53,14 @@ const Cart = (props: Props) => {
         </SheetHeader>
         {itemCount > 0 ? (
           <>
-            {/* <div className='flex w-full flex-col pr-6'>
+            <div className='flex w-full flex-col pr-6'>
               <ScrollArea>
                 {items.map(({ product }) => (
                   <CartItem product={product} key={product.id} />
                 ))}
               </ScrollArea>
-            </div> */}
-            {/* <div className='space-y-4 pr-6'>
+            </div>
+            <div className='space-y-4 pr-6'>
               <Separator />
               <div className='space-y-1.5 text-sm'>
                 <div className='flex'>
@@ -72,7 +89,7 @@ const Cart = (props: Props) => {
                   </Link>
                 </SheetTrigger>
               </SheetFooter>
-            </div> */}
+            </div>
           </>
         ) : (
           <div className='flex h-full flex-col items-center justify-center space-y-1'>
