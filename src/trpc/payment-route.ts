@@ -8,6 +8,7 @@ import { stripe } from '../lib/stripe';
 export const paymentRouter = router({
   createSession: privateProcedure
     .input(z.object({ productIds: z.array(z.string()) }))
+
     .mutation(async ({ ctx, input }) => {
       const { user } = ctx;
       let { productIds } = input;
@@ -47,19 +48,19 @@ export const paymentRouter = router({
         });
       });
 
-      line_items.push({
-        price: 'price_1OCeBwA19umTXGu8s4p2G3aX',
-        quantity: 1,
-        adjustable_quantity: {
-          enabled: false,
-        },
-      });
+      // line_items.push({
+      //   price: 'price_1OCeBwA19umTXGu8s4p2G3aX',
+      //   quantity: 1,
+      //   adjustable_quantity: {
+      //     enabled: false,
+      //   },
+      // });
 
       try {
         const stripeSession = await stripe.checkout.sessions.create({
           success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
           cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,
-          payment_method_types: ['card', 'paypal'],
+          payment_method_types: ['card'],
           mode: 'payment',
           metadata: {
             userId: user.id,
@@ -70,6 +71,8 @@ export const paymentRouter = router({
 
         return { url: stripeSession.url };
       } catch (err) {
+        console.log(err + 'PAYMENT');
+
         return { url: null };
       }
     }),

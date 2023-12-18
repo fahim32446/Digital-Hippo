@@ -32,6 +32,7 @@ export const Products: CollectionConfig = {
               unit_amount: Math.round(data.price * 100),
             },
           });
+          console.log({ createdProduct });
 
           const updated: Product = {
             ...data,
