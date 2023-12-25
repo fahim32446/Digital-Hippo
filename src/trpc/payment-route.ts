@@ -48,13 +48,13 @@ export const paymentRouter = router({
         });
       });
 
-      // line_items.push({
-      //   price: 'price_1OCeBwA19umTXGu8s4p2G3aX',
-      //   quantity: 1,
-      //   adjustable_quantity: {
-      //     enabled: false,
-      //   },
-      // });
+      line_items.push({
+        price: 'price_1ONxXdKpuXwUOF7kNJjBkcK5',
+        quantity: 1,
+        adjustable_quantity: {
+          enabled: false,
+        },
+      });
 
       try {
         const stripeSession = await stripe.checkout.sessions.create({
@@ -76,6 +76,7 @@ export const paymentRouter = router({
         return { url: null };
       }
     }),
+    
   pollOrderStatus: privateProcedure
     .input(z.object({ orderId: z.string() }))
     .query(async ({ input }) => {
