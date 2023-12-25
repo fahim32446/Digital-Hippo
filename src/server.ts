@@ -10,6 +10,7 @@ import { stripeWebhookHandler } from './components/webHook';
 import nextBuild from 'next/dist/build';
 import { PayloadRequest } from 'payload/types';
 import { parse } from 'url';
+import path from 'path';
 
 const app = express();
 
